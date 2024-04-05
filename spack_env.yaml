@@ -1,0 +1,26 @@
+# This is a Spack Environment file.
+
+# It describes a set of packages to be installed, along with
+# configuration settings.
+spack:
+  # compilers + concretization settings can also be applied below
+  specs:
+    - py-trame
+    - paraview+python
+  view: true
+  concretizer:
+    # unify specs - needs to be false to ensure multiple variants/versions
+    # can possibly result in intractible state so extra care is needed
+    unify: false
+    # ensure root specs (the packages we actually care about) are reconcretized when needed
+    # otherwise, the deps can be reused to dramatically reduce build time + size
+    reuse: dependencies
+    duplicates:
+      strategy: minimal
+    targets:
+      # this is required for GL reasons on MacOs
+      host_compatible: true
+  packages:
+    all:
+      providers:
+        blas: [openblas, netlib-lapack]
